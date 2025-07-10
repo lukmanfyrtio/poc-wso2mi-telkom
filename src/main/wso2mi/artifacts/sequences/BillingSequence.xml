@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="BillingSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Calling Billing Service</message>
+    </log>
+    
+    <!-- Initialize retry counter -->
+    <variable name="retryCount" type="INTEGER" value="0"/>
+    <variable name="maxRetries" type="INTEGER" value="3"/>
+    <variable name="billingSuccess" type="BOOLEAN" value="false"/>
+    
+    <!-- Retry loop sequence -->
+    <sequence key="BillingRetryLoopSequence"/>
+    
+    <!-- Check final result -->
+    <filter xpath="${vars.billingSuccess == false}">
+        <then>
+            <log category="ERROR">
+                <message>Billing service failed after ${vars.maxRetries} retries</message>
+            </log>
+            <throwError type="BILLING_ERROR" errorMessage="Billing service failed after maximum retries"/>
+        </then>
+        <else>
+            <log category="INFO">
+                <message>Billing service completed successfully</message>
+            </log>
+        </else>
+    </filter>
+</sequence>

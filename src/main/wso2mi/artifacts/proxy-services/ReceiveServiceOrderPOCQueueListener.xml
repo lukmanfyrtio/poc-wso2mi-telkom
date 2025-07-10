@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="ReceiveServiceOrderPOCQueueListener" startOnLoad="true" transports="jms" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <!-- Step 1: Extract and validate JMS correlation ID -->
+            <sequence key="ValidateJMSCorrelationSequence"/>
+            
+            <!-- Step 2: Parse JMS message to JSON -->
+            <sequence key="ParseJMSMessageSequence"/>
+            
+            <!-- Step 3: Process order status -->
+            <sequence key="ProcessOrderStatusSequence"/>
+        </inSequence>
+        <faultSequence/>
+    </target>
+    <parameter name="transport.jms.Destination">jms/ReceiveServiceOrderPOCQueue</parameter>
+</proxy>

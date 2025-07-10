@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ParseJMSMessageSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Parsing JMS text message to JSON</message>
+    </log>
+    
+    <variable name="jsonString" expression="${payload.text}" type="STRING"/>
+    
+    <script language="js"><![CDATA[
+        var json = JSON.parse(mc.getVariable("jsonString"));
+        mc.setPayloadJSON(json);
+    ]]></script>
+    
+    <variable name="requestBody" type="JSON" expression="${payload.dataWO}"/>
+    
+    <log category="INFO">
+        <message>External ID ${vars.requestBody.broadbandOrder.Header.externalId} status changed to ${payload.status}</message>
+    </log>
+</sequence>

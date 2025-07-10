@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="BillingRetryLoopSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <!-- Execute billing call -->
+     <property name="orderId" expression="${vars.requestBody.broadbandOrder.Header.externalId}"/>
+    <dataServiceCall serviceName="OracleDatabase">
+        <operations type="single">
+            <operation name="createBill">
+                <param name="orderId" expression="get-property('orderId')" evaluator="xml"/>
+            </operation>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+    
+    <log category="INFO">
+        <message>Database Status: ${payload.status} (Attempt: ${vars.retryCount + 1})</message>
+    </log>
+    <!-- Check if billing was successful -->
+    <filter xpath="${payload.data.status == 'true'}">
+        <then>
+            <variable name="billingSuccess" type="BOOLEAN" value="true"/>
+            <log category="INFO">
+                <message>Billing service succeeded on attempt ${vars.retryCount + 1}</message>
+            </log>
+        </then>
+        <else>
+            <!-- Increment retry counter -->
+            <variable name="retryCount" type="INTEGER" expression="${vars.retryCount + 1}"/>
+            <!-- Check if we should retry -->
+            <filter xpath="${vars.retryCount &lt; vars.maxRetries}">
+                <then>
+                    <log category="WARN">
+                        <message>Billing failed, retrying... (Attempt ${vars.retryCount}/${vars.maxRetries})</message>
+                    </log>
+                    <!-- Recursive call for retry -->
+                    <sequence key="BillingRetryLoopSequence"/>
+                </then>
+                <else>
+                    <log category="ERROR">
+                        <message>Billing service failed after ${vars.maxRetries} attempts</message>
+                    </log>
+                    <respond/>
+                </else>
+            </filter>
+        </else>
+    </filter>
+</sequence>

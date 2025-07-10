@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ProcessOrderStatusSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Processing order status: ${payload.status}</message>
+    </log>
+    <filter xpath="${payload.status == 'PROV_COMPLETED'}">
+        <then>
+            <log category="INFO">
+                <message>Order provisioning completed - sending email notification</message>
+            </log>
+            <log category="INFO">
+                <message>${vars.requestBody}</message>
+            </log>
+            <!-- Send email notification -->
+            <sequence key="SendEmailSequence"/>
+            <sequence key="CallBillingUpdateSOAPSequence"/>
+        </then>
+        <else>
+            <log category="INFO">
+                <message>Order status is ${payload.status} - no email notification required</message>
+            </log>
+        </else>
+    </filter>
+</sequence>

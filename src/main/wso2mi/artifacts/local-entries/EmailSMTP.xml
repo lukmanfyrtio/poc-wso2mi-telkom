@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="EmailSMTP" xmlns="http://ws.apache.org/ns/synapse">
+  <email.init>
+    <connectionType>SMTP</connectionType>
+    <host>mail.smtp2go.com</host>
+    <port>2525</port>
+    <requireAuthentication>true</requireAuthentication>
+    <username>pocemail123</username>
+    <password>2aG0DZZLXjRYdE7M</password>
+    <name>EmailSMTP</name>
+  </email.init>
+</localEntry>

@@ -1,0 +1,25 @@
+<data name="OracleDatabase" serviceNamespace="" serviceGroup="" transports="http https" disableStreaming="true">
+    <description/>
+    <config id="TelkomDB">
+        <property name="driverClassName">oracle.jdbc.driver.OracleDriver</property>
+        <property name="url">jdbc:oracle:thin:@//172.18.1.93:1522/FREEPDB1</property>
+        <property name="username">test1</property>
+        <property name="password">password</property>
+    </config>
+    <query id="createbill_query" useConfig="TelkomDB">
+        <sql>SELECT TEST1.CREATE_BILL_LUKMAN(:orderId) AS result FROM DUAL</sql>
+        <param name="orderId" paramType="SCALAR" sqlType="STRING" type="IN"/>
+        <result outputType="json">
+            {
+                "data": {
+                    "status": "$result"
+                }
+            }
+        </result>
+    </query>
+    <operation name="createBill" disableStreaming="true">
+        <call-query href="createbill_query">
+            <with-param name="orderId" query-param="orderId"/>
+        </call-query>
+    </operation>
+</data>

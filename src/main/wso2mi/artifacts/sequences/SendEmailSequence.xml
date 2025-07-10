@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="SendEmailSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Preparing to send email notification</message>
+    </log>
+    <!-- Set email variables -->
+    <variable name="emailSender" type="STRING" value="poc-telkom@yopmail.com"/>
+    <variable name="emailSenderName" type="STRING" value="Order Management System"/>
+    <variable name="emailRecipient" type="STRING" expression="${vars.requestBody.broadbandOrder.Body.customer.email}"/>
+    <!-- Create email body content -->
+    <variable name="customerName" type="STRING" expression="${vars.requestBody.broadbandOrder.Body.customer.customerName}"/>
+    <variable name="orderId" type="STRING" expression="${vars.requestBody.broadbandOrder.Header.externalId}"/>
+    <variable name="orderType" type="STRING" expression="${vars.requestBody.broadbandOrder.Body.orderType}"/>
+    <variable name="packageName" type="STRING" expression="${vars.requestBody.broadbandOrder.Body.products.inet.packages[0].packageName}"/>
+    <variable name="serviceId" type="STRING" expression="${vars.requestBody.broadbandOrder.Body.products.inet.serviceIdInet}"/>
+    <!-- Send email -->
+    <email.send configKey="EmailSMTP">
+        <from>{${vars.emailSender}}</from>
+        <personalName>{${vars.emailSenderName}}</personalName>
+        <to>{${vars.emailRecipient}}</to>
+        <cc></cc>
+        <bcc></bcc>
+        <replyTo></replyTo>
+        <subject>Selamat, Layanan Bpk/Ibu ${vars.customerName} Telah Terpasang. Order ${vars.orderId} .</subject>
+        <content>&lt;!DOCTYPE html&gt;
+            &lt;html&gt;
+            &lt;head&gt;
+            &lt;meta charset=&quot;UTF-8&quot;&gt;
+            &lt;title&gt;Konfirmasi Pesanan&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;p&gt;Yth. ${vars.customerName},&lt;/p&gt;
+            &lt;p&gt;
+            Pesanan Anda telah berhasil kami terima dan sedang dalam proses.
+            &lt;/p&gt;
+            &lt;p&gt;
+            &lt;strong&gt;Detail Pesanan:&lt;/strong&gt;&lt;br&gt;
+            - ID Pesanan: ${vars.orderId}&lt;br&gt;
+            - No Layanan: ${vars.serviceId}&lt;br&gt;
+            - Jenis Pesanan: ${vars.orderType}&lt;br&gt;
+            - Paket: ${vars.packageName}
+            &lt;/p&gt;
+            &lt;p&gt;
+            Kami akan memberitahukan Anda segera setelah jadwal instalasi ditentukan.
+            &lt;/p&gt;
+            &lt;p&gt;
+            Terima kasih telah memilih layanan kami.&lt;br&gt;&lt;br&gt;
+            Hormat kami,&lt;br&gt;
+            &lt;strong&gt;Telkom Indonesia&lt;/strong&gt;
+            &lt;/p&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;</content>
+        <contentType>text/html</contentType>
+        <encoding>UTF-8</encoding>
+        <attachments></attachments>
+        <inlineImages>[]</inlineImages>
+        <contentTransferEncoding>Base64</contentTransferEncoding>
+        <responseVariable>emailResponse</responseVariable>
+        <overwriteBody>false</overwriteBody>
+    </email.send>
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Email sent successfully to ${vars.emailRecipient}</message>
+    </log>
+</sequence>

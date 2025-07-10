@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="WorkForceSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Calling WorkForce API</message>
+    </log>
+    
+    <http.post configKey="WorkForceAPI">
+        <relativePath>/work-orders</relativePath>
+        <headers>[]</headers>
+        <requestBodyType>JSON</requestBodyType>
+        <requestBodyJson>${vars.requestBody}</requestBodyJson>
+        <forceScAccepted>false</forceScAccepted>
+        <disableChunking>false</disableChunking>
+        <forceHttp10>false</forceHttp10>
+        <noKeepAlive>false</noKeepAlive>
+        <forcePostPutNobody>false</forcePostPutNobody>
+        <responseVariable>workForceAPIResponse</responseVariable>
+        <overwriteBody>false</overwriteBody>
+    </http.post>
+    
+    <log category="INFO">
+        <message>WorkForce API Response received : ${payload}</message>
+    </log>
+</sequence>

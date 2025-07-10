@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/api" name="OrderManagementAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/order" faultSequence="ErrorSequence">
+        <inSequence>
+            <!-- Step 1: Store original request -->
+            <sequence key="StoreRequestSequence"/>
+            <!-- Step 2: Call Billing SP -->
+            <sequence key="BillingSequence"/>
+            <!-- Step 3: Call WorkForce API -->
+            <sequence key="WorkForceSequence"/>
+            <!-- Step 4: Send Message to JMS -->
+            <sequence key="CoreSystemJMSProxySequence"/>
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                    "status": "accepted",
+                    "message": "Order request received and queued for processing",
+                    "correlationId": "${vars.messageId}"
+                    }
+                </format>
+            </payloadFactory>
+            <respond/>
+        </inSequence>
+    </resource>
+</api>

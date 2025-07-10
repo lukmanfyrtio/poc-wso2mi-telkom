@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ValidateJMSCorrelationSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>JMS Correlation ID: ${properties.axis2.JMS_COORELATION_ID}</message>
+    </log>
+    
+    <variable name="JMSCorrelationID" type="STRING" expression="${properties.axis2.JMS_COORELATION_ID}"/>
+    
+    <!-- Check if JMSCorrelationID contains "WSO2" -->
+    <filter xpath="${contains(vars.JMSCorrelationID, 'WSO2')}">
+        <then>
+            <log category="INFO">
+                <message>Processing message with valid JMSCorrelationID: ${vars.JMSCorrelationID}</message>
+            </log>
+        </then>
+        <else>
+            <log category="INFO">
+                <message>Message ignored - JMSCorrelationID does not contain 'WSO2': ${vars.JMSCorrelationID}</message>
+            </log>
+            <drop/>
+        </else>
+    </filter>
+</sequence>

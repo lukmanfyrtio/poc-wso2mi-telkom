@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="CallBillingUpdateSOAPSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Calling SOAP billing update API</message>
+    </log>
+    <!-- Prepare SOAP envelope -->
+    <payloadFactory media-type="xml">
+        <format>
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://example.com/soap/billing">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <ns:broadbandOrder>
+                        <Header>
+                            <externalId>${vars.requestBody.broadbandOrder.Header.externalId}</externalId>
+                            <callerID>${vars.requestBody.broadbandOrder.Header.callerID}</callerID>
+                            <status>${payload.status}</status>
+                        </Header>
+                        <Body>
+                            <customer>
+                                <customerId>${vars.requestBody.broadbandOrder.Body.customer.customerId}</customerId>
+                                <customerName>${vars.requestBody.broadbandOrder.Body.customer.customerName}</customerName>
+                                <phoneNumber>${vars.requestBody.broadbandOrder.Body.customer.phoneNumber}</phoneNumber>
+                                <email>${vars.requestBody.broadbandOrder.Body.customer.email}</email>
+                            </customer>
+                            <products>
+                                <inet>
+                                    <serviceIdInet>${vars.requestBody.broadbandOrder.Body.products.inet.serviceIdInet}</serviceIdInet>
+                                </inet>
+                            </products>
+                        </Body>
+                    </ns:broadbandOrder>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </format>
+    </payloadFactory>
+    <!-- Call SOAP API -->
+    <http.post configKey="BillingSOAPConnection">
+        <relativePath>/billing-update</relativePath>
+        <headers>[["Content-Type","text/xml; charset=utf-8"],["SOAPAction",""]]</headers>
+        <requestBodyType>XML</requestBodyType>
+        <requestBodyXml>{${xpath('$body/node()')}}</requestBodyXml>
+        <forceScAccepted>false</forceScAccepted>
+        <disableChunking>false</disableChunking>
+        <forceHttp10>false</forceHttp10>
+        <noKeepAlive>false</noKeepAlive>
+        <forcePostPutNobody>false</forcePostPutNobody>
+        <forceHttpContentLength>false</forceHttpContentLength>
+    </http.post>
+    <log category="INFO">
+        <message>SOAP billing update API response received : ${payload}</message>
+    </log>
+</sequence>
