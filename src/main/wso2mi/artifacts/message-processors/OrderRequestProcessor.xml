@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messageProcessor class="org.apache.synapse.message.processors.sampler.SamplingProcessor" 
+                  name="OrderRequestProcessor" 
+                  messageStore="OrderRequestInMemory" 
+                  xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="sequence">ProcessInMemoryOrderSequence</parameter>
+    <parameter name="interval">5000</parameter>
+    <parameter name="is.active">true</parameter>
+    <parameter name="max.delivery.attempts">3</parameter>
+    <parameter name="max.delivery.drop">Disabled</parameter>
+    <parameter name="member.count">1</parameter>
+</messageProcessor>

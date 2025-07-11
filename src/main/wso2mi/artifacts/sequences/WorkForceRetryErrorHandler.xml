@@ -14,7 +14,7 @@
                 <message>Connection failed, retrying... (Attempt ${vars.retryCount}/${vars.maxRetries})</message>
             </log>
             <!-- Recursive call for retry -->
-            <sequence key="WorkForceRetryLoopSequence"/>
+            <sequence key="WorkForceRetrySequence"/>
         </then>
         <else>
             <log category="ERROR">

@@ -2,14 +2,7 @@
 <api context="/api" name="OrderManagementAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" uri-template="/order" faultSequence="ErrorSequence">
         <inSequence>
-            <!-- Step 1: Store original request -->
-            <sequence key="StoreRequestSequence"/>
-            <!-- Step 2: Call Billing SP -->
-            <sequence key="BillingSequence"/>
-            <!-- Step 3: Call WorkForce API -->
-            <sequence key="WorkForceSequence"/>
-            <!-- Step 4: Send Message to JMS -->
-            <sequence key="CoreSystemJMSProxySequence"/>
+            <store messageStore="OrderRequestInMemory"/>
             <payloadFactory media-type="json">
                 <format>
                     {

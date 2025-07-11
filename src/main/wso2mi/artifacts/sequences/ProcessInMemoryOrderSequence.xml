@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ProcessInMemoryOrderSequence" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO">
+        <message>Processing message from in-memory store: ${payload}</message>
+    </log>
+    <!-- Step 1: Store original request -->
+    <sequence key="StoreRequestSequence"/>
+    <!-- Step 2: Call Billing SP -->
+    <sequence key="BillingSequence"/>
+    <!-- Step 3: Call WorkForce API -->
+    <sequence key="WorkForceSequence"/>
+    <!-- Step 4: Send Message to JMS -->
+    <sequence key="CoreSystemJMSProxySequence"/>
+</sequence>
