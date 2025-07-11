@@ -4,9 +4,11 @@
     <connectionType>HTTP</connectionType>
     <baseUrl>http://localhost:3000</baseUrl>
     <authType>None</authType>
+    <timeoutDuration>4000</timeoutDuration>
     <timeoutAction>Never</timeoutAction>
-    <retryCount>0</retryCount>
-    <retryDelay>0</retryDelay>
+    <retryCount>3</retryCount>
+    <retryDelay>5000</retryDelay>
+    <suspendErrorCodes>500</suspendErrorCodes>
     <suspendInitialDuration>-1</suspendInitialDuration>
     <suspendProgressionFactor>1</suspendProgressionFactor>
     <name>WorkForceAPI</name>

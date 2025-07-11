@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="WorkForceSequence" xmlns="http://ws.apache.org/ns/synapse">
     <log category="INFO">
-        <message>Calling WorkForce API</message>
+        <message>Calling WorkForce Service</message>
     </log>
     
-    <http.post configKey="WorkForceAPI">
-        <relativePath>/work-orders</relativePath>
-        <headers>[]</headers>
-        <requestBodyType>JSON</requestBodyType>
-        <requestBodyJson>${vars.requestBody}</requestBodyJson>
-        <forceScAccepted>false</forceScAccepted>
-        <disableChunking>false</disableChunking>
-        <forceHttp10>false</forceHttp10>
-        <noKeepAlive>false</noKeepAlive>
-        <forcePostPutNobody>false</forcePostPutNobody>
-        <responseVariable>workForceAPIResponse</responseVariable>
-        <overwriteBody>false</overwriteBody>
-    </http.post>
+    <!-- Initialize retry counter -->
+    <variable name="retryCount" type="INTEGER" value="0"/>
+    <variable name="maxRetries" type="INTEGER" value="3"/>
+    <variable name="workForceSuccess" type="BOOLEAN" value="false"/>
     
-    <log category="INFO">
-        <message>WorkForce API Response received : ${payload}</message>
-    </log>
+    <!-- Retry loop sequence -->
+    <sequence key="WorkForceRetryLoopSequence"/>
+    
+    <!-- Check final result -->
+    <filter xpath="${vars.workForceSuccess == false}">
+        <then>
+            <log category="ERROR">
+                <message>WorkForce service failed after ${vars.maxRetries} retries</message>
+            </log>
+            <throwError type="WORKFORCE_ERROR" errorMessage="WorkForce service failed after maximum retries"/>
+        </then>
+        <else>
+            <log category="INFO">
+                <message>WorkForce service completed successfully</message>
+            </log>
+        </else>
+    </filter>
 </sequence>

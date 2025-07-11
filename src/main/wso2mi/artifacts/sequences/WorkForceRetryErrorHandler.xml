@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="WorkForceRetryErrorHandler" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="ERROR">
+        <message>WorkForce API connection error: ${props.synapse.ERROR_MESSAGE} (Attempt: ${vars.retryCount + 1})</message>
+    </log>
+    
+    <!-- Increment retry counter -->
+    <variable name="retryCount" type="INTEGER" expression="${vars.retryCount + 1}"/>
+    
+    <!-- Check if we should retry -->
+    <filter xpath="${vars.retryCount &lt; vars.maxRetries}">
+        <then>
+            <log category="WARN">
+                <message>Connection failed, retrying... (Attempt ${vars.retryCount}/${vars.maxRetries})</message>
+            </log>
+            <!-- Recursive call for retry -->
+            <sequence key="WorkForceRetryLoopSequence"/>
+        </then>
+        <else>
+            <log category="ERROR">
+                <message>WorkForce service connection failed after ${vars.maxRetries} attempts</message>
+            </log>
+            <!-- Set failure flag and continue to main sequence -->
+            <variable name="workForceSuccess" type="BOOLEAN" value="false"/>
+            <throwError errorMessage="WorkForce service connection failed after 3 attempts" type="INFO"/>
+        </else>
+    </filter>
+</sequence>

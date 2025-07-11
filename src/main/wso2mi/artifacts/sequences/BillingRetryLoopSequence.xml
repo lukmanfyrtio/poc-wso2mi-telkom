@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="BillingRetryLoopSequence" xmlns="http://ws.apache.org/ns/synapse">
     <!-- Execute billing call -->
-     <property name="orderId" expression="${vars.requestBody.broadbandOrder.Header.externalId}"/>
+    <property name="orderId" expression="${vars.requestBody.broadbandOrder.Header.externalId}"/>
     <dataServiceCall serviceName="OracleDatabase">
         <operations type="single">
             <operation name="createBill">
@@ -11,7 +11,6 @@
         <source type="inline"/>
         <target type="body"/>
     </dataServiceCall>
-    
     <log category="INFO">
         <message>Database Status: ${payload.status} (Attempt: ${vars.retryCount + 1})</message>
     </log>
@@ -39,7 +38,7 @@
                     <log category="ERROR">
                         <message>Billing service failed after ${vars.maxRetries} attempts</message>
                     </log>
-                    <respond/>
+                    <throwError type="string" errorMessage="Billing service failed after 3 attempts"></throwError>
                 </else>
             </filter>
         </else>
