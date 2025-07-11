@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <localEntry key="WorkForceAPI" xmlns="http://ws.apache.org/ns/synapse">
   <http.init>
-    <connectionType>HTTP</connectionType>
-    <baseUrl>http://localhost:3000</baseUrl>
+    <connectionType>HTTPS</connectionType>
+    <baseUrl>https://wso2-dev.satuinformasi.com/telkom</baseUrl>
     <authType>None</authType>
     <timeoutDuration>4000</timeoutDuration>
     <timeoutAction>Never</timeoutAction>
+    <retryErrorCodes>500</retryErrorCodes>
     <retryCount>3</retryCount>
     <retryDelay>5000</retryDelay>
     <suspendErrorCodes>500</suspendErrorCodes>

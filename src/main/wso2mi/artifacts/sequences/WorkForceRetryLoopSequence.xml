@@ -14,11 +14,9 @@
         <responseVariable>workForceAPIResponse</responseVariable>
         <overwriteBody>true</overwriteBody>
     </http.post>
-    
     <log category="INFO">
         <message>WorkForce API Response: ${payload.success} (Attempt: ${vars.retryCount + 1})</message>
     </log>
-    
     <!-- Check if WorkForce call was successful -->
     <filter xpath="${payload.success == true}">
         <then>
@@ -36,8 +34,11 @@
                     <log category="WARN">
                         <message>WorkForce failed, retrying... (Attempt ${vars.retryCount}/${vars.maxRetries})</message>
                     </log>
+                        <script language="js"><![CDATA[
+                            java.lang.Thread.sleep(5000);
+                        ]]></script>
                     <!-- Recursive call for retry -->
-                    <sequence key="WorkForceRetryLoopSequence"/>
+                    <sequence key="WorkForceRetrySequence"/>
                 </then>
                 <else>
                     <log category="ERROR">

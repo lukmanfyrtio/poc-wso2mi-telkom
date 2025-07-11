@@ -3,15 +3,12 @@
     <log category="INFO">
         <message>Calling Billing Service</message>
     </log>
-    
     <!-- Initialize retry counter -->
     <variable name="retryCount" type="INTEGER" value="0"/>
     <variable name="maxRetries" type="INTEGER" value="3"/>
     <variable name="billingSuccess" type="BOOLEAN" value="false"/>
-    
     <!-- Retry loop sequence -->
     <sequence key="BillingRetryLoopSequence"/>
-    
     <!-- Check final result -->
     <filter xpath="${vars.billingSuccess == false}">
         <then>
@@ -23,6 +20,29 @@
         <else>
             <log category="INFO">
                 <message>Billing service completed successfully</message>
+            </log>
+            <http.post configKey="MontitoringAPI">
+                <relativePath>/a</relativePath>
+                <headers>[]</headers>
+                <requestBodyType>JSON</requestBodyType>
+                <requestBodyJson>'{
+                    "action": "create_db",
+                    "status": "success",
+                    "data": {
+                    "externalid": "${vars.requestBody.broadbandOrder.Header.externalId}",
+                    "JMSCorrelationID": "${vars.JMSCorrelationID}"
+                    }
+                    }'</requestBodyJson>
+                <forceScAccepted>false</forceScAccepted>
+                <disableChunking>false</disableChunking>
+                <forceHttp10>false</forceHttp10>
+                <noKeepAlive>false</noKeepAlive>
+                <forcePostPutNobody>false</forcePostPutNobody>
+                <responseVariable>responseAMonitoring</responseVariable>
+                <overwriteBody>true</overwriteBody>
+            </http.post>
+            <log category="INFO">
+                <message>Initiating request to Monitoring API A</message>
             </log>
         </else>
     </filter>

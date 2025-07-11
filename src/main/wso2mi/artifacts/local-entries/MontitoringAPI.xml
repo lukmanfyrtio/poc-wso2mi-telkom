@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<localEntry key="BillingSOAPConnection" xmlns="http://ws.apache.org/ns/synapse">
+<localEntry key="MontitoringAPI" xmlns="http://ws.apache.org/ns/synapse">
   <http.init>
     <connectionType>HTTPS</connectionType>
-    <baseUrl>https://wso2-dev.satuinformasi.com/telkom/soap</baseUrl>
+    <baseUrl>https://wso2-dev.satuinformasi.com/telkom/monitoring</baseUrl>
     <authType>None</authType>
     <timeoutAction>Never</timeoutAction>
     <retryCount>0</retryCount>
     <retryDelay>0</retryDelay>
     <suspendInitialDuration>-1</suspendInitialDuration>
     <suspendProgressionFactor>1</suspendProgressionFactor>
-    <name>BillingSOAPConnection</name>
+    <name>MontitoringAPI</name>
   </http.init>
 </localEntry>

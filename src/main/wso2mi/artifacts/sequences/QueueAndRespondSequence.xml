@@ -3,16 +3,12 @@
     <log category="INFO">
         <message>Queuing message and preparing response</message>
     </log>
-    <!-- Generate correlation ID -->
-    <utility.randomUUID>
-        <targetVariable>messageId</targetVariable>
-    </utility.randomUUID>
     <!-- Prepare message for queue -->
     <payloadFactory media-type="json">
         <format>${vars.requestBody}</format>
     </payloadFactory>
     <!-- Set JMS correlation ID and queue message -->
-    <header name="JMSCorrelationID" action="set" scope="transport" expression="${vars.messageId + '_WSO2MI'}"/>
+    <header name="JMSCorrelationID" action="set" scope="transport" expression="${vars.JMSCorrelationID}"/>
     <property name="OUT_ONLY" value="true"/>
     <store messageStore="SubmitServiceOrderPOCQueue"/>
 </sequence>

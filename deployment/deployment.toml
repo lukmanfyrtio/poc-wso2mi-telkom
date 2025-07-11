@@ -136,7 +136,7 @@ sender_enable = true
 [[transport.jms.listener]]
 name = "myQueueConnectionFactory"
 parameter.initial_naming_factory = "weblogic.jndi.WLInitialContextFactory"
-parameter.provider_url = "t3://localhost:7001"
+parameter.provider_url = "t3://172.18.1.93:7001"
 parameter.connection_factory_name = "jms/TestConnectionFactory"
 parameter.connection_factory_type = "queue"
 parameter.username = "weblogic"
@@ -145,7 +145,7 @@ parameter.password = "@Sadapaingan1"
 [[transport.jms.listener]]
 name = "default"
 parameter.initial_naming_factory = "weblogic.jndi.WLInitialContextFactory"
-parameter.provider_url = "t3://localhost:7001"
+parameter.provider_url = "t3://172.18.1.93:7001"
 parameter.connection_factory_name = "jms/TestConnectionFactory"
 parameter.connection_factory_type = "queue"
 parameter.username = "weblogic"

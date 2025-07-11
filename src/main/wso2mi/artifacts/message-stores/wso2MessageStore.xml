@@ -3,7 +3,7 @@
     <parameter name="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory</parameter>
     <parameter name="store.jms.cache.connection">false</parameter>
     <parameter name="store.jms.password">@Sadapaingan1</parameter>
-    <parameter name="java.naming.provider.url">t3://localhost:7001</parameter>
+    <parameter name="java.naming.provider.url">t3://172.18.1.93:7001</parameter>
     <parameter name="store.jms.ConsumerReceiveTimeOut">300</parameter>
     <parameter name="store.jms.connection.factory">jms/TestConnectionFactory</parameter>
     <parameter name="store.jms.username">weblogic</parameter>

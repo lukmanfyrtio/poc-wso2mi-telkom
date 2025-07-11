@@ -148,9 +148,9 @@
                                     <artifactId>${project.artifactId}</artifactId>
                                     <groupId>${project.groupId}</groupId>
                                     <version>${project.version}</version>
-                                    <!-- <file>${project.build.directory}/${project.artifactId}_${project.version}.car</file> -->
+                                    <file>${project.build.directory}/${project.artifactId}_${project.version}.car</file>
                                     <!-- Use the following configuration when archiveLocation is configured -->
-                                    <file>D:\\swamedia\\wso2_integrator\\wso2mi-4.4.0\\repository\\deployment\\server\\carbonapps\\${project.artifactId}_${project.version}.car</file>
+                                    <!-- <file>D:\\swamedia\\wso2_integrator\\wso2mi-4.4.0\\repository\\deployment\\server\\carbonapps\\${project.artifactId}_${project.version}.car</file> -->
                                 </configuration>
                             </execution>
                         </executions>

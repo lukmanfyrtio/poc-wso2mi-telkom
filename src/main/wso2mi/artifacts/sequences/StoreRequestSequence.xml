@@ -3,5 +3,10 @@
     <log category="INFO">
         <message>Storing original request for processing</message>
     </log>
+    <!-- Generate correlation ID -->
+    <utility.randomUUID>
+        <targetVariable>messageId</targetVariable>
+    </utility.randomUUID>
+    <variable name="JMSCorrelationID" expression="${vars.messageId + '_WSO2MI'}"/>
     <variable name="requestBody" type="JSON" expression="${payload}"/>
 </sequence>

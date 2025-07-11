@@ -3,6 +3,30 @@
     <log category="INFO">
         <message>Processing order status: ${payload.status}</message>
     </log>
+    <http.post configKey="MontitoringAPI">
+        <relativePath>/b</relativePath>
+        <headers>[]</headers>
+        <requestBodyType>JSON</requestBodyType>
+        <requestBodyJson>'{
+            "action": "update_status",
+            "milestoneStatus": "${payload.status}",
+            "data": {
+            "externalid": "${vars.requestBody.broadbandOrder.Header.externalId}",
+            "JMSCorrelationID": "${vars.JMSCorrelationID}"
+            }
+            }'</requestBodyJson>
+        <forceScAccepted>false</forceScAccepted>
+        <disableChunking>false</disableChunking>
+        <forceHttp10>false</forceHttp10>
+        <noKeepAlive>false</noKeepAlive>
+        <forcePostPutNobody>false</forcePostPutNobody>
+        <responseVariable>responseBMonitoring</responseVariable>
+        <overwriteBody>false</overwriteBody>
+    </http.post>
+
+    <log category="INFO">
+        <message>Initiating request to Monitoring API B: Changing status of Order ID ${vars.requestBody.broadbandOrder.Header.externalId} to '${payload.status}'</message>
+    </log>
     <filter xpath="${payload.status == 'PROV_COMPLETED'}">
         <then>
             <log category="INFO">

@@ -3,15 +3,12 @@
     <log category="INFO">
         <message>Calling WorkForce Service</message>
     </log>
-    
     <!-- Initialize retry counter -->
     <variable name="retryCount" type="INTEGER" value="0"/>
     <variable name="maxRetries" type="INTEGER" value="3"/>
     <variable name="workForceSuccess" type="BOOLEAN" value="false"/>
-    
     <!-- Retry loop sequence -->
     <sequence key="WorkForceRetrySequence"/>
-    
     <!-- Check final result -->
     <filter xpath="${vars.workForceSuccess == false}">
         <then>
@@ -23,6 +20,29 @@
         <else>
             <log category="INFO">
                 <message>WorkForce service completed successfully</message>
+            </log>
+            <http.post configKey="MontitoringAPI">
+                <relativePath>/a</relativePath>
+                <headers>[]</headers>
+                <requestBodyType>JSON</requestBodyType>
+                <requestBodyJson>'{
+                    "action": "create_wo",
+                    "status": "success",
+                    "data": {
+                    "externalid": "${vars.requestBody.broadbandOrder.Header.externalId}",
+                    "JMSCorrelationID": "${vars.JMSCorrelationID}"
+                    }
+                    }'</requestBodyJson>
+                <forceScAccepted>false</forceScAccepted>
+                <disableChunking>false</disableChunking>
+                <forceHttp10>false</forceHttp10>
+                <noKeepAlive>false</noKeepAlive>
+                <forcePostPutNobody>false</forcePostPutNobody>
+                <responseVariable>responseAMonitoring_1</responseVariable>
+                <overwriteBody>true</overwriteBody>
+            </http.post>
+            <log category="INFO">
+                <message>Initiating request to Monitoring API A</message>
             </log>
         </else>
     </filter>
