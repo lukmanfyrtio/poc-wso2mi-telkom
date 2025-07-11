@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<api context="/api" name="OrderManagementAPI" publishSwagger="/_system/governance/yaml/OrderManagementAPI.yaml" xmlns="http://ws.apache.org/ns/synapse">
+<api context="/api" name="OrderManagementAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" uri-template="/order" faultSequence="ErrorSequence">
         <inSequence>
             <!-- Step 1: Store original request -->
