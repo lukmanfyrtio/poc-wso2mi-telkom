@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="WorkForceRetryLoopSequence" onError="WorkForceRetryErrorHandler" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="WorkForceRetrySequence" onError="WorkForceRetryErrorHandler" xmlns="http://ws.apache.org/ns/synapse">
     <!-- Execute WorkForce API call -->
     <http.post configKey="WorkForceAPI">
         <relativePath>/work-orders</relativePath>

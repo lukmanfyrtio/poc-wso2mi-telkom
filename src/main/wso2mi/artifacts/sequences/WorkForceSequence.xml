@@ -10,7 +10,7 @@
     <variable name="workForceSuccess" type="BOOLEAN" value="false"/>
     
     <!-- Retry loop sequence -->
-    <sequence key="WorkForceRetryLoopSequence"/>
+    <sequence key="WorkForceRetrySequence"/>
     
     <!-- Check final result -->
     <filter xpath="${vars.workForceSuccess == false}">
