@@ -16,3 +16,5 @@ scp "$CAR_FILE" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
 if [ $? -eq 0 ]; then
   echo "✅ Deploy sukses!"
 else
+  echo "❌ Deploy gagal!"
+fi

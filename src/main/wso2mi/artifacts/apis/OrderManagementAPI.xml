@@ -7,8 +7,7 @@
                 <format>
                     {
                     "status": "accepted",
-                    "message": "Order request received and queued for processing",
-                    "correlationId": "${vars.messageId}"
+                    "message": "Order request received and queued for processing"
                     }
                 </format>
             </payloadFactory>
