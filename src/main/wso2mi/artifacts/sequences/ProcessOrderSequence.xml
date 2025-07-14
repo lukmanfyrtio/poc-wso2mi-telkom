@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="ProcessInMemoryOrderSequence" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="ProcessOrderSequence" xmlns="http://ws.apache.org/ns/synapse">
     <log category="INFO">
-        <message>Processing message from in-memory store: ${payload}</message>
+        <message>Processing message from activeMQ queue store: ${payload}</message>
     </log>
     <!-- Step 1: Store original request -->
     <sequence key="StoreRequestSequence"/>

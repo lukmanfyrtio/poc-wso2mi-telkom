@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="OrderRequestQueue" startOnLoad="true" transports="jms" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <sequence key="ProcessOrderSequence"/>
+        </inSequence>
+        <faultSequence/>
+    </target>
+          <parameter name="transport.jms.Destination">TestQueue</parameter>
+      <parameter name="transport.jms.ConnectionFactory">activeMQListener</parameter>
+</proxy>

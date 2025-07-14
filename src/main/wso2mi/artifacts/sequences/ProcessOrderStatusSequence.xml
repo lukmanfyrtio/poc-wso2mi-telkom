@@ -36,7 +36,7 @@
                 <message>${vars.requestBody}</message>
             </log>
             <!-- Send email notification -->
-            <sequence key="SendEmailSequence"/>
+            <!-- <sequence key="SendEmailSequence"/> -->
             <sequence key="CallBillingUpdateSOAPSequence"/>
         </then>
         <else>

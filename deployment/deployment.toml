@@ -150,3 +150,11 @@ parameter.connection_factory_name = "jms/TestConnectionFactory"
 parameter.connection_factory_type = "queue"
 parameter.username = "weblogic"
 parameter.password = "@Sadapaingan1"
+
+[[transport.jms.listener]]
+name = "activeMQListener"
+parameter.initial_naming_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
+parameter.provider_url = "tcp://172.18.1.93:61616"
+parameter.connection_factory_name = "QueueConnectionFactory"
+parameter.connection_factory_type = "queue"
+parameter.cache_level = "consumer"

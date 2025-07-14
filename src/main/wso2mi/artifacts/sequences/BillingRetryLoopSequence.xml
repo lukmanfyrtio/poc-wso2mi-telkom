@@ -12,7 +12,7 @@
         <target type="body"/>
     </dataServiceCall>
     <log category="INFO">
-        <message>Database Status: ${payload.status} (Attempt: ${vars.retryCount + 1})</message>
+        <message>Database Status: ${payload.data.status} (Attempt: ${vars.retryCount + 1})</message>
     </log>
     <!-- Check if billing was successful -->
     <filter xpath="${payload.data.status == 'true'}">

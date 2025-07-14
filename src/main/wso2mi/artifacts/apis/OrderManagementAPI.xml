@@ -2,7 +2,13 @@
 <api context="/api" name="OrderManagementAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" uri-template="/order" faultSequence="ErrorSequence">
         <inSequence>
-            <store messageStore="OrderRequestInMemory"/>
+            <property name="OUT_ONLY" value="true"/>
+            <call>
+                <endpoint>
+                    <address uri="jms:/TestQueue?transport.jms.ConnectionFactoryJNDIName=QueueConnectionFactory&amp;java.naming.factory.initial=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;java.naming.provider.url=tcp://172.18.1.93:61616&amp;transport.jms.DestinationType=queue"/>
+                </endpoint>
+            </call>
+            <!-- <store messageStore="OrderRequestInMemory"/> -->
             <payloadFactory media-type="json">
                 <format>
                     {
