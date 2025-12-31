@@ -3,6 +3,7 @@
     <resource methods="POST" uri-template="/order" faultSequence="ErrorSequence">
         <inSequence>
             <property name="OUT_ONLY" value="true"/>
+            <property name="ClientApiNonBlocking" action="remove" scope="axis2"/>
             <call>
                 <endpoint>
                     <address uri="jms:/TestQueue?transport.jms.ConnectionFactoryJNDIName=QueueConnectionFactory&amp;java.naming.factory.initial=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;java.naming.provider.url=tcp://172.18.1.93:61616&amp;transport.jms.DestinationType=queue"/>
